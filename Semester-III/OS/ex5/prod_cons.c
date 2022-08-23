@@ -14,6 +14,7 @@ void* produce(void*);
 void* consume(void*);
 
 pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex2 = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t  cond1  = PTHREAD_COND_INITIALIZER;
 
 int isempty(){
@@ -21,14 +22,15 @@ int isempty(){
     else return 0;
 }
 int isfull(){
-    if ((front == 0 && rear == MAX - 1) || (rear == front - 1)) return 1;
+    if ((front == 0 && rear == MAX - 1) || (rear == (front - 1))) return 1;
     else return 0;
 }
 
 void enqueue(){
     if (isempty()){
         front ++;
-        buffer[++rear] = rear;
+        rear ++;
+        buffer[rear] = rear;
     }
     else if(!isfull()){
         rear = (rear + 1) % MAX;
@@ -37,11 +39,9 @@ void enqueue(){
 }
 
 int dequeue(){
-    /*if (isempty()){
-        return -1;
-    }*/
+
     if(rear == front){
-        int d = buffer[rear];
+        int d = buffer[front];
         front = -1;
         rear = -1;
         return d;
@@ -87,10 +87,11 @@ int main(void){
 
 void* produce(void* dummy){
     while(flag2){
-        pthread_mutex_lock( &mutex1 );
-        
+        pthread_mutex_lock( &mutex1 );   
+
         if (isfull()){
             flag = 1;
+            printf("Flag : %i\n",flag);
             pthread_cond_wait( &cond1, &mutex1 );
             enqueue();
             printf("Produced (After Wait) %i\n", buffer[rear]);
@@ -105,11 +106,12 @@ void* produce(void* dummy){
             enqueue();
             printf("Produced %i\n", buffer[rear]);
         }
-        if (counter >= 20)  
+        if (counter >= 5)  
             flag2 = 0;
         counter++;
         pthread_mutex_unlock( &mutex1 );
     }
+    return NULL;
 }
 
 void* consume(void* dummy){
@@ -134,6 +136,7 @@ void* consume(void* dummy){
         counter++;
         pthread_mutex_unlock( &mutex1 );
     }
+    return NULL;
 }
 
 
