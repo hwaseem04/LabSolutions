@@ -8,6 +8,7 @@ int buffer[MAX];
 int front = -1, rear = -1;
 int counter = 0;
 int flag = 0;
+int flag2 = 1;
 
 void* produce(void*);
 void* consume(void*);
@@ -24,14 +25,14 @@ int isfull(){
     else return 0;
 }
 
-void enqueue(int e){
+void enqueue(){
     if (isempty()){
-        rear ++;
-        buffer[++front] = e;
+        front ++;
+        buffer[++rear] = rear;
     }
     else if(!isfull()){
         rear = (rear + 1) % MAX;
-        buffer[rear] = e;
+        buffer[rear] = rear;
     }
 }
 
@@ -61,55 +62,58 @@ int main(void){
     /*pthread_create( &p2, NULL, produce, NULL );
     pthread_create( &p3, NULL, produce, NULL );
     pthread_create( &p4, NULL, produce, NULL );
-    pthread_create( &p5, NULL, produce, NULL );
+    pthread_create( &p5, NULL, produce, NULL );*/
     
     pthread_create( &c1, NULL, consume, NULL );
-    pthread_create( &c2, NULL, consume, NULL );
+    /*pthread_create( &c2, NULL, consume, NULL );
     pthread_create( &c3, NULL, consume, NULL );
-    pthread_create( &c4, NULL, consume, NULL );*/
-    pthread_create( &c5, NULL, consume, NULL );
+    pthread_create( &c4, NULL, consume, NULL );
+    pthread_create( &c5, NULL, consume, NULL );*/
     
     pthread_join(p1, NULL);
     /*pthread_join(p2, NULL);
     pthread_join(p3, NULL);
     pthread_join(p4, NULL);
-    pthread_join(p5, NULL);
+    pthread_join(p5, NULL);*/
     
     pthread_join(c1, NULL);
-    pthread_join(c2, NULL);
+    /*pthread_join(c2, NULL);
     pthread_join(c3, NULL);
-    pthread_join(c4, NULL);*/
-    pthread_join(c5, NULL);
+    pthread_join(c4, NULL);
+    pthread_join(c5, NULL);*/
     
     return 0;
 } 
 
 void* produce(void* dummy){
-    while(counter < 20){
+    while(flag2){
         pthread_mutex_lock( &mutex1 );
         
         if (isfull()){
             flag = 1;
             pthread_cond_wait( &cond1, &mutex1 );
-            enqueue(counter++);
+            enqueue();
             printf("Produced (After Wait) %i\n", buffer[rear]);
         }
         else if(flag == 2){
             flag = 0;
-            enqueue(counter++);
+            enqueue();
             printf("Produced (coz of empty) %i\n", buffer[rear]);
             pthread_cond_signal( &cond1 );
         }
         else{
-            enqueue(counter++);
+            enqueue();
             printf("Produced %i\n", buffer[rear]);
         }
+        if (counter >= 20)  
+            flag2 = 0;
+        counter++;
         pthread_mutex_unlock( &mutex1 );
     }
 }
 
 void* consume(void* dummy){
-    while(counter < 20){
+    while(flag2){
         pthread_mutex_lock( &mutex1 );
         
         if (flag == 1){
@@ -125,6 +129,9 @@ void* consume(void* dummy){
         else{
             printf("Consumed %i\n", dequeue());
         }
+        if (counter >= 20)  
+            flag2 = 0;
+        counter++;
         pthread_mutex_unlock( &mutex1 );
     }
 }
