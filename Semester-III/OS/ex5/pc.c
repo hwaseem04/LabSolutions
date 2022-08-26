@@ -51,7 +51,6 @@ int dequeue(){
     }
 }
 
-
 int main(void){
     pthread_t p1, c1;
 
