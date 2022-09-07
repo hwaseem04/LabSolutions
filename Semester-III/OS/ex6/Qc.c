@@ -29,36 +29,26 @@ int main(void){
     int pid, burst, arrival;
     int starting_arrival = 10000;
     P* start = NULL;
+
     for (int i = 0; i < n; i++){
-        printf("PID : ");
-        scanf("%i", &(arr[i].pid));
-        printf("Arrival : ");
-        scanf("%i", &(arr[i].arrival));
-        if (arr[i].arrival < starting_arrival)
-            start = &arr[i];
-            starting_arrival = arr[i].arrival;
-        printf("Burst : ");
-        scanf("%i", &(arr[i].burst));
-        //printf("%i\n", start->burst);
-        printf("Priority : ");
-        scanf("%i", &(arr[i].priority));
-        //printf("%i\n", arr[i].priority);
+        printf("PID, Arrival, Burst, Priority : ");
+        scanf("%i %i %i %i", &(arr[i].pid), &(arr[i].arrival), &(arr[i].burst), &(arr[i].priority));
     }
     int duration = 0;
     for(int i = 0; i < n; i++){
-        start -> duration[0] = duration;
-        if(i == 0)
-            printf("P%i --> %i-", start->pid, duration);
-        else
-            printf("P%i --> %i-", start->pid, duration + 1);
-        duration = duration + start->burst;
-        printf("%i\n", duration);
-        start -> duration[1] = duration;
-        tracker[start -> pid - 1] = 0;
 
         tracker = arrived(arr, tracker, duration, n);
         start = priority(arr, tracker, n);
-        
+
+        start -> duration[0] = duration;
+
+        duration = duration + start->burst;
+
+        start -> duration[1] = duration;
+
+        tracker[start -> pid - 1] = 0;
+
+        printf("P%i --> %i - %i\n", start -> pid, start -> duration[0], start -> duration[1]);
     }
     free(tracker);
     return 0;

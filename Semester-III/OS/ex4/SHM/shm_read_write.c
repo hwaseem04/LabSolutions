@@ -1,12 +1,12 @@
 # include <stdio.h>
-# include <sys/ipc.h>
+//# include <sys/ipc.h>
 # include <sys/shm.h>
-# include <fcntl.h>
+//# include <fcntl.h>
 # include <unistd.h>
 # include <sys/wait.h>
 
 
-## In the program I am accessing child memory with two independent processes.
+// In the program I am accessing child memory with two independent processes.
 
 int main(void){
 	key_t Key = ftok("test", 42);
@@ -24,7 +24,6 @@ int main(void){
 	else{
 		wait(NULL);
 		printf("Parent : ");
-		//wait(NULL);
 		printf("%s\n", sh);
 
 	}	

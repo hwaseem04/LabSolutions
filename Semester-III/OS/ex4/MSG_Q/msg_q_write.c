@@ -16,9 +16,6 @@ int main(void){
 
 	msg_id = msgget(key, 0666 | IPC_CREAT);
 
-	//msg1.msg_type = 1;
-	//strcpy(msg1.data,"Hello Waseem");
-	
 	while(1){
 		printf("Msg type : ");
 		scanf("%li", &msg1.msg_type);

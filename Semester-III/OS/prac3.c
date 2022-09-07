@@ -7,7 +7,8 @@ pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t cond1 = PTHREAD_COND_INITIALIZER;
 int counter = 0;
 
-int main(void){
+int main(void)
+{
 
     pthread_t t1, t2, t3;
     char* msg = "Hello Threads";
@@ -34,13 +35,7 @@ void* func(void* c){
         printf("Thread %ld running in IF \n",pthread_self()); 
     }    
     else if (counter == 1){
-        printf("Going to send signal in 3 seconds\n");
-        /*printf("3...");
-        sleep(1);
-        printf("2...");
-        sleep(1);
-        printf("1...");
-        sleep(1);*/
+        printf("Going to send signal now\n");
         pthread_cond_signal( &cond1 );
     }
     printf("Thread %ld running\n",pthread_self()); 
