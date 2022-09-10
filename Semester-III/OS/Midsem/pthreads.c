@@ -2,6 +2,7 @@
 # include <stdlib.h>
 # include <pthread.h>
 # include <math.h>
+# include <time.h>
 
 pthread_mutex_t m1 = PTHREAD_MUTEX_INITIALIZER;
 int GSUM = 0;
@@ -24,6 +25,7 @@ int NumElems_to_Thread(int N, int j, int T){
 }
 
 int main(void){
+    //srand(time(NULL));
     int n;
     printf("Enter Elements in array : ");
     scanf("%i", &n);
@@ -87,7 +89,7 @@ void* local_sum(void* S){
 int* fill_array(int n){
     int* arr = (int*)malloc(sizeof(int) * n);
     for (int i = 0; i < n; i++){
-        *(arr + i) = i + 1;
+        *(arr + i) = (rand % 10) + 1;
     }
     return arr;
 }
