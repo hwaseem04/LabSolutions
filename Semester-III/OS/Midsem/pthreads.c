@@ -16,6 +16,7 @@ typedef struct Elem{
 
 int*  fill_array(int);
 void* local_sum(void*);
+void  print_array(int*, int);
 
 // T : Number of threads
 // N : Number of Elements
@@ -25,7 +26,7 @@ int NumElems_to_Thread(int N, int j, int T){
 }
 
 int main(void){
-    //srand(time(NULL));
+    srand(time(NULL));
     int n;
     printf("Enter Elements in array : ");
     scanf("%i", &n);
@@ -43,7 +44,8 @@ int main(void){
 
     pthread_t Thread_Arr[5];
     int* main_arr = fill_array(n);
-
+    printf("\nArray : ");
+    print_array(main_arr, n);
     printf("\n");
 
     int count = 0;
@@ -89,7 +91,15 @@ void* local_sum(void* S){
 int* fill_array(int n){
     int* arr = (int*)malloc(sizeof(int) * n);
     for (int i = 0; i < n; i++){
-        *(arr + i) = (rand % 10) + 1;
+        *(arr + i) = (rand() % 10) + 1;
     }
     return arr;
+}
+
+void print_array(int* arr, int n){
+    printf("[");
+    for (int i = 0; i < n; i++){
+        printf("%i ", arr[i]);
+    }
+    printf("]\n");
 }
