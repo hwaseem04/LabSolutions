@@ -43,6 +43,7 @@ int main(void){
         map[i] = NumElems_to_Thread(n, i, 5);
         printf("MAP : %i\n", map[i]);
     }
+    printf("\n");
 
     Thread_Arr = (pthread_t*)malloc(sizeof(pthread_t) * 5);
 
