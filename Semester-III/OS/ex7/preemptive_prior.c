@@ -1,85 +1,39 @@
 # include <stdio.h>
 # include <stdlib.h>
 
-typedef struct {
-    int id;
-    int arrT;
-    int burT;
-    int prior;
-}proc;
-
-typedef struct node{
-    proc data;
-    struct node* next;
-}node;
-
-node *head, *n;
-
-int size;
-int front = -1;
-int rear = -1;
-
-void enqueue(proc e){
-    if (front == -1 && rear == -1){
-        n = (node*)malloc(sizeof(node));
-        n -> data = e;
-        n -> next = NULL;
-        front ++;
-        rear ++;
-        head -> next = n;
-        return;
-    }
-    
-
-    if (head -> next == NULL){
-        n = (node*)malloc(sizeof(node));
-        n -> data = e;
-        if (head -> data.prior < e.prior){    
-            n -> next = NULL;
-            head -> next = n;
-        } 
-        else{
-            n -> next = head;
-            head = n;
-        }
-        return;
-    }
-
-    node* tmp = head;
-    n = (node*)malloc(sizeof(node));
-    n -> data = e;
-    while(tmp -> next != NULL){
-        if (tmp -> data.prior > e.prior){
-            n -> next = tmp ;
-            tmp = n;
-            return;
-        }
-        tmp = tmp -> next;
-    }
-    tmp -> next = n;
-    n -> next = NULL;
-    return;
-}
-
-proc deque(){
-    ;
-}
-
-
 
 int main(void){
-    printf("Number of processes : ");
-    scanf("%i", &size);
+    int n;
+    printf("Total Processes : ");
+    scanf("%i", &n);
 
-    proc* arr = (proc*)malloc(sizeof(proc) * size);
-    head = (node*)malloc(sizeof(node));
-    head -> next = NULL;
+    int arr[n][4];
+    int finished[n];
+    int total_time = 0;
+    int start = -1;
+    int min = 1000;
+    int priority = 1000;
+    for (int i = 0; i < n; i++){
+        printf("Arrival time, burst time, priority : ");
+        scanf("%i %i %i", &arr[i][1],&arr[i][2],&arr[i][3]);
+        arr[i][0] = i + 1;
+        finished[i] = 0;
+        if (arr[i][1] < min){
+            min = arr[i][1];
+            start = i;
+            priority = arr[i][3];
+        }
+        total_time += arr[i][2];
+    }
+    int tt = 0;
 
-    for(int i = 0; i < size; i++){
-        printf("Arrival Time, Burst Time, Priority : ");
-        scanf("%i %i %i", &arr[i].arrT, &arr[i].burT,&arr[i].prior);
-        arr[i].id = i + 1;
+    while(tt <= total_time){
+        for (int i = 0; i < n; i++){
+            if (!finished && (arr[i][3] < priority) && (arr[i][1] < tt + arr[start][2])){
+                
+            }
+        }
     }
 
-    int tt = 0;
+    return 0;
 }
