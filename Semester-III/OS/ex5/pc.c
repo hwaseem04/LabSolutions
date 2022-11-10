@@ -37,7 +37,6 @@ void enqueue(){
 }
 
 int dequeue(){
-
     if(rear == front){
         int d = buffer[front];
         front = -1;
@@ -66,42 +65,53 @@ int main(void){
 
     return 0;
 }
+void *produce(void* dummy){
+    pthread_mutex_lock( &mutex1 );
+
+    if (isfull())
+        pthread_cond_wait( &cond1 , &mutex1 );
+
+    enqueue(rear);
+    
+    pthread_mutex_unlock ( &mutex1 );
+    pthread_cond_signal( &cond1 );
+}
+
+
+
+
+
+
+
+
+
 
 void* produce(void* dummy){
-    int counter = 0;
-    //while (counter < 10){
+
     pthread_mutex_lock( &mutex1 );
     
     if (isfull()) 
         pthread_cond_wait( &cond1, &mutex1 );
 
-    if (counter < 10)
-        enqueue();
-    printf("Thread id : %ld produced %i\n", pthread_self() , rear);
-
-    counter ++;
+    enqueue();
+    printf("Thread id : %li produced %i\n", (long)pthread_self() , rear);
 
     pthread_mutex_unlock( &mutex1 );
 
     pthread_cond_signal( &cond1 );
-    //}
+    return NULL;
 }
 
 void* consume(void* dummy){
-    int counter = 0;
-    //while(counter < 10){
     pthread_mutex_lock( &mutex1 );
 
     if (isempty())
         pthread_cond_wait( &cond1, &mutex1 );
-    
-    if (counter < 10)
-        printf("Thread id : %ld consumed %i\n", pthread_self() , dequeue());
 
-    counter ++;
+    printf("Thread id : %li consumed %i\n", (long)pthread_self() , dequeue());
 
     pthread_mutex_unlock( &mutex1 );
 
     pthread_cond_signal( &cond1 );
-    //}
+    return NULL;
 }

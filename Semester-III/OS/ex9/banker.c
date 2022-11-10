@@ -32,9 +32,12 @@ int main(void){
         printf("Maximum needed resources (# # #) for P%i : ", i);
         scanf("%i %i %i", &maxNeeded[i][0], &maxNeeded[i][1], &maxNeeded[i][2]);
 
-        needed[i][0] = maxNeeded[i][0] - allocated[i][0];
-        needed[i][1] = maxNeeded[i][1] - allocated[i][1];
-        needed[i][2] = maxNeeded[i][2] - allocated[i][2];
+        for (int j = 0; j < r; j++)
+            needed[i][j] = maxNeeded[i][j] - allocated[i][j];
+
+        // needed[i][0] = maxNeeded[i][0] - allocated[i][0];
+        // needed[i][1] = maxNeeded[i][1] - allocated[i][1];
+        // needed[i][2] = maxNeeded[i][2] - allocated[i][2];
     }
     //printf("%i %i %i\n", available[0], available[1],available[2]);
 
@@ -54,7 +57,7 @@ int main(void){
             if (flag == 0){
                 printf("P%i\n", j);
                 for (int k = 0; k < r; k++){
-                    available[k] = available[k] -needed[j][k] + maxNeeded[j][k];
+                    available[k] = available[k] - needed[j][k] + maxNeeded[j][k]; //allocated[j][k] + available[k];
                     finished[j] = 1;
                 }
                 break;

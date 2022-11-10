@@ -1,6 +1,7 @@
+
 # include <stdio.h>
 # include <unistd.h>
-# include <sys/wait.h>
+//# include <sys/wait.h>
 
 int main(void){
 	int fd_12[2];
@@ -12,16 +13,27 @@ int main(void){
 	int pid = fork();
 
 	if (pid > 0){
+		close(fd_12[0]);
+		close(fd_21[1]);
 		write(fd_12[1], s1, 100);
-		printf("Written to child\n");
+		printf("Written to child: %s\n", s1);
 		read(fd_21[0], s2, 100);
 		printf("Read from child : %s\n", s2);
 	}
 	else{
+		close(fd_12[1]);
+		close(fd_21[0]);
 		read(fd_12[0], s2, 100);
 		s2[4] = '-';
 		write(fd_21[1], s2, 100);
 	}	
 	return 0;
 }
+
+
+
+
+
+
+
 
