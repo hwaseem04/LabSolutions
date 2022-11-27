@@ -1,40 +1,18 @@
 # include <stdio.h>
-# include <fcntl.h>
-# include <sys/stat.h>
 # include <unistd.h>
+# include <fcntl.h>
+
+// create myfifo in terminal with command "mkfifo myfifo"
 
 int main(void){
-	mkfifo("myfifo", 0777);
-	
+	printf("Reading data(Server) : \n");
+
+	int fd = open("myfifo", O_RDONLY);
 	char str[100];
-	int fd;
-	printf("TEST\n");
-	fd = open("myfifo", O_RDONLY);
-	printf("TEST\n");
 	while(1){
-		
-		printf("TEST\n");
 		read(fd, str, sizeof(str));
-		printf("%s\n", str);
+		printf("Data : %s\n", str);
 	}
 }
 
-/*
-#include <stdio.h>
-#include <fcntl.h> //open, O_RDONLY
-#include <sys/stat.h> // For mkfifo
-#include <unistd.h> // for read, write
 
-int main(void){
-	int fd;
-	char arr[100];
-	
-	mkfifo("myfifo", 0777);
-	while(1){
-		fd=open("myfifo", O_RDONLY);	
-		read(fd, arr, 100);
-		printf("%s\n", arr);
-	}
-}
-
-*/

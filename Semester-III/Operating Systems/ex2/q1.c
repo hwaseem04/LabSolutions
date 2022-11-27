@@ -1,27 +1,22 @@
-
-
-
-
 # include <stdio.h>
+# include <sys/wait.h>
 # include <unistd.h>
 
 
 int main(void){
-    char name[100];
-    int fd[2];
-    pipe(fd);
+	
+	char str[10] = "Hello\n";
+	int fd[2];
+	pipe(fd);
+	int pid = fork();
 
-    int pid = fork();
-    if (pid > 0){
-        sleep(2);
-        write(fd[1],"This is from parent ",100);
-    }
-    else{
-        printf("Waiting for write operation in Parent Process, But delayed due to sleep\n");    
-        read(fd[0],name, 100);
-        printf("Read from parent : %s\n", name);
-    }
-    //write(1,"\n",1);
-    return 0;
+	if (pid == 0){
+		char str2[10];
+		read(fd[0], str2, sizeof(str2));
+		printf("Read from parent : %s\n", str2);
+	}
+	else{
+		write(fd[1], str, sizeof(str));
+		wait(NULL);
+	}
 }
-
