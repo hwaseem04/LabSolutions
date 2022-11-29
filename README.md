@@ -1,6 +1,6 @@
 # LabSolutions
 
-
+## Semester 2
 ```mermaid
 stateDiagram-v2
     Semester2 --> DSA
@@ -9,6 +9,9 @@ stateDiagram-v2
     DSA --> tree
     DSA --> graph
 ```
+<br>
+
+## Semester 3
 
 ```mermaid
 stateDiagram-v2
