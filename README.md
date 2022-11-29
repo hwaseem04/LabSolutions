@@ -12,6 +12,7 @@ stateDiagram-v2
 <br>
 
 ## Semester 3
+- Refer respective folder to find questions in PDF format.
 
 ```mermaid
 stateDiagram-v2
