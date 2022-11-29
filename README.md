@@ -3,14 +3,15 @@
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Undergraduate
-    Undergraduate --> Semester2
-    Undergraduate --> Semester3
     Semester2 --> DSA
     DSA --> linked_list
     DSA --> search_sort
     DSA --> tree
     DSA --> graph
+```
+
+```mermaid
+stateDiagram-v2
     Semester3 --> OperatingSystems
     OperatingSystems --> Ex2_pipes
     OperatingSystems --> Ex3_namesPipes
@@ -26,3 +27,5 @@ stateDiagram-v2
     OperatingSystems --> Ex9_Bankers_Algorithm
     OperatingSystems --> Ex10_DynamicMemoryAlloc
 ```
+
+
