@@ -1,16 +1,8 @@
-/******************************************************************************
-
-Welcome to GDB Online.
-GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
-C#, OCaml, VB, Perl, Swift, Prolog, Javascript, Pascal, HTML, CSS, JS
-Code, Compile, Run and Debug online from anywhere in world.
-
-*******************************************************************************/
 #include <iostream>
 using namespace std;
 
 # define match 3
-# define o -2
+# define o -2 // Opening gap penalty is taken same as mismatch penalty(at diagonal, where there is no gap)
 # define e -1
 
 # define Left 1
@@ -20,8 +12,11 @@ using namespace std;
 
 int main()
 {
-    string s1 = " aaccttggttcc";
-    string s2 = " aaccttggtaac";
+
+    int l = 1;
+    int affine = o + e * (l-1);
+    string s1 = "aacctct";
+    string s2 = "aaccctt";
 
     int m = s1.length();
     int n = s2.length();
@@ -37,20 +32,47 @@ int main()
         for (int j = 1; j < n+1; j++){
             if (s1[i-1] == s2[j-1]){
                 matrix[i][j] = matrix[i-1][j-1] + match; 
+                l = 1;
             }
             else{
-                int Max = max(matrix[i-1][j] + o, matrix[i-1][j-1] + o);
-                Max = max(Max, matrix[i][j-1] + o);
-                matrix[i][j] = Max;
+                if (matrix[i-1][j] + affine > matrix[i][j-1] + affine){ // Up or left
+                    if (matrix[i-1][j] + affine > matrix[i-1][j-1] + affine){ // Up or diagonal
+                        matrix[i][j] = matrix[i-1][j] + affine; 
+                        l += 1;  
+                    }
+                    else{
+                        matrix[i][j] = matrix[i-1][j-1] + affine; 
+                        l = 1;  
+                    }
+                }else{
+                    if (matrix[i][j-1] + affine > matrix[i-1][j-1] + affine){ // Left or diagonal
+                        matrix[i][j] = matrix[i][j-1] + affine; 
+                        l += 1;
+                    }
+                    else{
+                        matrix[i][j] = matrix[i-1][j-1] + affine;
+                        l = 1;
+                    }     
+                }  
             }
         }
     }
-
+    cout << " \t \t";
+    for (int i = 0; i < n; i++){
+        cout << s2[i] << "\t";
+    }
+    cout << endl;
     for (int i = 0; i < m+1; i++){
-        for (int j = 0; j < n+1; j++){
-            cout << matrix[i][j] << " ";
+        if (i > 0){
+            cout << s1[i-1] << "\t";
         }
-        cout << endl;
+        else{
+            cout << " \t"; 
+        }
+        for (int j = 0; j < n+1; j++){
+            cout << matrix[i][j] << "\t";
+        }
+        cout <<  endl;
     }
     cout << "\n";
 
@@ -118,5 +140,5 @@ int main()
             i++;
        }
     }
-
+    cout << endl;
 }
