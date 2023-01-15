@@ -15,8 +15,8 @@ int main()
 
     int l = 1;
     int affine = o + e * (l-1);
-    string s1 = "aacctct";
-    string s2 = "aaccctt";
+    string s1 = "aacctcccc";
+    string s2 = "aaccctttt";
 
     int m = s1.length();
     int n = s2.length();
