@@ -39,7 +39,7 @@ GROUP BY RollNo
 HAVING Count(RollNo)=
 	(SELECT COUNT(CourseId) 
 	FROM teaching 
-	WHERE EmpId = 5);
+	WHERE EmpId = 5); 
 
 -- Q6
 SELECT RollNo 
@@ -50,7 +50,7 @@ WHERE CourseId IN
     WHERE CourseId='CS789')
 AND Grade IN ('S' ,'A') 
 GROUP BY RollNo 
-HAVING COUNT(RollNo)=
+HAVING COUNT(RollNo)= 
 	(SELECT Count(Prereqcourse) 
     FROM prerequisite 
     WHERE courseID='CS789');
