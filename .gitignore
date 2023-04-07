@@ -1,8 +1,10 @@
 
-# Mac os
+# Mac os and large files
 **/.DS_Store
 *.zip
 *.docx
+*.tar.gz
+cifar-100-python
 
 Semester-IV/MLT/CIA-1/Swarm_Behaviour.csv
 # Vs code settings
